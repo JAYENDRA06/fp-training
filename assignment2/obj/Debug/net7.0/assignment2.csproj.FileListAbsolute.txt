@@ -1,0 +1,14 @@
+E:\FAREPORTAL\training\All Assignments\assignment2\bin\Debug\net7.0\assignment2.exe
+E:\FAREPORTAL\training\All Assignments\assignment2\bin\Debug\net7.0\assignment2.deps.json
+E:\FAREPORTAL\training\All Assignments\assignment2\bin\Debug\net7.0\assignment2.runtimeconfig.json
+E:\FAREPORTAL\training\All Assignments\assignment2\bin\Debug\net7.0\assignment2.dll
+E:\FAREPORTAL\training\All Assignments\assignment2\bin\Debug\net7.0\assignment2.pdb
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\assignment2.GeneratedMSBuildEditorConfig.editorconfig
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\assignment2.AssemblyInfoInputs.cache
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\assignment2.AssemblyInfo.cs
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\assignment2.csproj.CoreCompileInputs.cache
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\assignment2.dll
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\refint\assignment2.dll
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\assignment2.pdb
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\assignment2.genruntimeconfig.cache
+E:\FAREPORTAL\training\All Assignments\assignment2\obj\Debug\net7.0\ref\assignment2.dll
