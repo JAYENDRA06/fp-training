@@ -7,8 +7,8 @@ e1.DisplayDetails();
 
 Trainee e2 = new();
 e2.GetTraineeDetails("E002", "Abhinandita", DateTime.Now, "Banking", 20000);
-e2.ShowTraineeDetails();
+e2.DisplayDetails();
 
 Trainee e3 = new();
 e3.GetTraineeDetails("E003", "Jay", DateTime.Now, "Insurance", 50000);
-e3.ShowTraineeDetails();
+e3.DisplayDetails();
