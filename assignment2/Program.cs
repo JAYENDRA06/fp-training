@@ -1,4 +1,5 @@
 ﻿using Models;
+using UserExceptions;
 
 IBankRepository bankRepository = new BankRepository();
 bool loop = true;
@@ -45,17 +46,25 @@ while (loop)
         case 2:
             {
                 List<SBAccount>? accounts = bankRepository.GetAllAccounts();
-                if (accounts != null)
+
+                try
                 {
-                    Console.WriteLine("All account details");
-                    foreach (SBAccount account in accounts)
+                    if (accounts != null)
                     {
-                        Console.WriteLine(account);
+                        Console.WriteLine("All account details");
+                        foreach (SBAccount account in accounts)
+                        {
+                            Console.WriteLine(account);
+                        }
+                    }
+                    else
+                    {
+                        throw new AccountNotFoundException("No Account found");
                     }
                 }
-                else
+                catch (AccountNotFoundException e)
                 {
-                    Console.WriteLine("No account found");
+                    Console.WriteLine(e.Message);
                 }
 
                 break;
@@ -66,14 +75,21 @@ while (loop)
                 int _accountNumber = Convert.ToInt32(Console.ReadLine());
                 SBAccount? account = bankRepository.GetAccountDetails(_accountNumber);
 
-                if (account != null)
+                try
                 {
-                    Console.WriteLine("Account details");
-                    Console.WriteLine(account);
+                    if (account != null)
+                    {
+                        Console.WriteLine("Account details");
+                        Console.WriteLine(account);
+                    }
+                    else
+                    {
+                        throw new AccountNotFoundException("No Account found");
+                    }
                 }
-                else
+                catch (AccountNotFoundException e)
                 {
-                    Console.WriteLine("Account not found");
+                    Console.WriteLine(e.Message);
                 }
 
                 break;
@@ -113,18 +129,27 @@ while (loop)
                 Console.WriteLine("Enter the account number");
                 int _accountNumber = Convert.ToInt32(Console.ReadLine());
                 List<SBTransaction>? transactions = bankRepository.GetTransactions(_accountNumber);
-                if (transactions != null)
+
+                try
                 {
-                    Console.WriteLine("All transactions related that customer are");
-                    foreach (SBTransaction transaction in transactions)
+                    if (transactions != null)
                     {
-                        Console.WriteLine(transaction);
+                        Console.WriteLine("All transactions related that customer are");
+                        foreach (SBTransaction transaction in transactions)
+                        {
+                            Console.WriteLine(transaction);
+                        }
+                    }
+                    else
+                    {
+                        throw new AccountNotFoundException("No Transactions found");
                     }
                 }
-                else
+                catch (AccountNotFoundException e)
                 {
-                    Console.WriteLine("No Transactions found");
+                    Console.WriteLine(e.Message);
                 }
+
 
                 break;
             }
