@@ -77,8 +77,7 @@ namespace banking_project_ssms.Models
         }
         public List<SbtransactionJay>? GetTransactions(int accno)
         {
-            SbaccountJay? sbaccountJay = db.SbaccountJays.Where(x => x.AccountNumber == accno).SingleOrDefault();
-            return sbaccountJay?.SbtransactionJays.ToList();
+            return [.. db.SbtransactionJays.Where(x => x.AccountNumber == accno)];
         }
     }
 }

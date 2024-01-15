@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("banking-project-ssms")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cebd95e835bf1bf5ba33e6688515879f1de37528")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4dda6a066751712871c3fb8f3e19e032cbddfdc")]
 [assembly: System.Reflection.AssemblyProductAttribute("banking-project-ssms")]
 [assembly: System.Reflection.AssemblyTitleAttribute("banking-project-ssms")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
