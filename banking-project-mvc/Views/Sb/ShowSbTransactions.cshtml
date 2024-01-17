@@ -1,0 +1,59 @@
+@model IEnumerable<first_mvc_application.Models.SbtransactionJay>
+
+@{
+    ViewData["Title"] = "ShowSbTransactions";
+}
+
+<h1>ShowSbTransactions</h1>
+
+<p>
+    <a asp-action="AddSbTransaction">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrancationType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrancationType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "UpdateSbTransaction", new { id = item.TransactionId }) |
+                @Html.ActionLink("Details", "GetSbTransaction", new { id = item.TransactionId }) |
+                @Html.ActionLink("Delete", "DeleteTransaction", new { id = item.TransactionId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

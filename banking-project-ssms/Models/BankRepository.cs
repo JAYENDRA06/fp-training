@@ -4,8 +4,6 @@ namespace banking_project_ssms.Models
 {
     class BankRepository : IBankRepository
     {
-        public List<SbaccountJay> SBAccounts = [];
-        public List<SbtransactionJay> SBTransactions = [];
         public readonly Ace52024Context db = new();
 
         public void NewAccount(SbaccountJay sBAccount)

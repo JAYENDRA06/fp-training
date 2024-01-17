@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Sample page";
+}
+
+@* @ is a razor syntax which will switch b/w c# and html codes *@
+
+@* scope of ViewData and ViewBag is between the View and the corresponding action method *@
+
+@* Viewbag is dynamic property - which can hold any datatype and only at runtime it finalizes it's datatype and value*@
+<h1>@ViewData["Title"]</h1>
+
+<p>This is a sample page.</p>

@@ -1,0 +1,111 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = first_mvc_application
+build_property.RootNamespace = first_mvc_application
+build_property.ProjectDir = C:\Users\J.A.th22\Desktop\dotnet training\fp-training\first-mvc-application\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\J.A.th22\Desktop\dotnet training\fp-training\first-mvc-application
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Employee/AddEmployee.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVcQWRkRW1wbG95ZWUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Employee/GetAllEmployees.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVcR2V0QWxsRW1wbG95ZWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Employee/ShowEmpDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVcU2hvd0VtcERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Home/Sample.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYW1wbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/AddSbAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcQWRkU2JBY2NvdW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/AddSbTransaction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcQWRkU2JUcmFuc2FjdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/DeleteAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcRGVsZXRlQWNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/DeleteTransaction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcRGVsZXRlVHJhbnNhY3Rpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/GetSbAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcR2V0U2JBY2NvdW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/GetSbTransaction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcR2V0U2JUcmFuc2FjdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/ShowSbAccounts.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcU2hvd1NiQWNjb3VudHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/ShowSbTransactions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcU2hvd1NiVHJhbnNhY3Rpb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/UpdateSbAccount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcVXBkYXRlU2JBY2NvdW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Sb/UpdateSbTransaction.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2JcVXBkYXRlU2JUcmFuc2FjdGlvbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/first-mvc-application/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-coj3ljgl56

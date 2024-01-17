@@ -1,0 +1,53 @@
+@model IEnumerable<first_mvc_application.Models.SbaccountJay>
+
+@{
+    ViewData["Title"] = "ShowSbAccounts";
+}
+
+<h1>ShowSbAccounts</h1>
+
+<p>
+    <a asp-action="AddSbAccount">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentBalance)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentBalance)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "UpdateSbAccount", new { id = item.AccountNumber }) |
+                @Html.ActionLink("Details", "GetSbAccount", new { id = item.AccountNumber }) |
+                @Html.ActionLink("Delete", "DeleteAccount", new { id = item.AccountNumber })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
