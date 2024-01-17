@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4zAgSRh4INdO78guTxnabJBj7C2+Ysrr65dGrmd6dMCOGgDdCrgcIx8Wuku4IpHSKh7M9fh/PWNTnhR64DTpAg==",
+  "dgSpecHash": "FyMZGvFfCpGpRA3S8iSZOY091GPGQrvCIrW3FGhq9XSE4wZIWcxyH9+nRwTV2WE23h1urmYTmzpBpLAIRzFDBw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\first-mvc-application\\first-mvc-application.csproj",
+  "projectFilePath": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\banking-project-mvc\\first-mvc-application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\J.A.th22\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\J.A.th22\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

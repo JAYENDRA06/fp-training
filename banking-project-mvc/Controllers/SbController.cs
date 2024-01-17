@@ -107,18 +107,19 @@ namespace first_mvc_application.Controllers
         // Deleting
 
         [HttpGet]
-        public IActionResult DeleteAcount(int id)
+        public IActionResult DeleteAccount(int id)
         {
             SbaccountJay? account = db.SbaccountJays.Find(id);
             return View(account);
         }
 
         [HttpPost]
-        [ActionName("Delete")]
+        [ActionName("DeleteAccount")]
         public IActionResult DeleteAcountConfirmed(int id)
         {
             SbaccountJay? account = db.SbaccountJays.Find(id);
             if(account != null) db.SbaccountJays.Remove(account);
+            db.SaveChanges();
             return RedirectToAction("ShowSbAccounts");
         }
 
@@ -130,11 +131,12 @@ namespace first_mvc_application.Controllers
         }
 
         [HttpPost]
-        [ActionName("Delete")]
+        [ActionName("DeleteTransaction")]
         public IActionResult DeleteTransactionConfirmed(int id)
         {
             SbtransactionJay? tx = db.SbtransactionJays.Find(id);
             if(tx != null) db.SbtransactionJays.Remove(tx);
+            db.SaveChanges();
             return RedirectToAction("ShowSbTransactions");
         }
     }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\first-mvc-application\\first-mvc-application.csproj": {}
+    "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\banking-project-mvc\\first-mvc-application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\first-mvc-application\\first-mvc-application.csproj": {
+    "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\banking-project-mvc\\first-mvc-application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\first-mvc-application\\first-mvc-application.csproj",
+        "projectUniqueName": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\banking-project-mvc\\first-mvc-application.csproj",
         "projectName": "first-mvc-application",
-        "projectPath": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\first-mvc-application\\first-mvc-application.csproj",
+        "projectPath": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\banking-project-mvc\\first-mvc-application.csproj",
         "packagesPath": "C:\\Users\\J.A.th22\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\first-mvc-application\\obj\\",
+        "outputPath": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\banking-project-mvc\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\J.A.th22\\AppData\\Roaming\\NuGet\\NuGet.Config"
