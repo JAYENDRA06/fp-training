@@ -1,0 +1,47 @@
+@model IEnumerable<flight_ticket_system.Models.AirportsJay>
+
+@{
+    ViewData["Title"] = "ShowAirports";
+    Layout = "_AdminLayout";
+}
+
+<h1>Airports</h1>
+
+<p>
+    <a asp-action="AddAirport">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AirportCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AirportName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AirportCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AirportName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditAirport", new { id=item.AirportCode }) |
+                @Html.ActionLink("Delete", "DeleteAirport", new { id=item.AirportCode })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

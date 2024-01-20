@@ -1,0 +1,72 @@
+@model IEnumerable<flight_ticket_system.Models.FlightsJay>
+
+@{
+    ViewData["Title"] = "ShowFlights";
+    Layout = "_AdminLayout";
+}
+
+<h1>Flights</h1>
+
+<p>
+    <a asp-action="AddFlight">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureAirportCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AirlineCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartureAirportCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArrivalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AirlineCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartureDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArrivalDateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditFlight", new { id = item.FlightNumber }) |
+                @Html.ActionLink("Details", "DetailsFlight", new { id = item.FlightNumber }) |
+                @Html.ActionLink("Delete", "DeleteFlight", new { id = item.FlightNumber })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

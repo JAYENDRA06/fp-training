@@ -15,30 +15,14 @@ public partial class Ace52024Context : DbContext
     {
     }
 
-    public virtual DbSet<Jayendra> Jayendras { get; set; }
-
     public virtual DbSet<SbaccountJay> SbaccountJays { get; set; }
 
     public virtual DbSet<SbtransactionJay> SbtransactionJays { get; set; }
 
+    public virtual DbSet<UsertblJay> UsertblJays { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Jayendra>(entity =>
-        {
-            entity.HasKey(e => e.PersonId).HasName("PK__Jayendra__AA2FFBE5513A081B");
-
-            entity.ToTable("Jayendra");
-
-            entity.Property(e => e.PersonId).ValueGeneratedNever();
-            entity.Property(e => e.Address)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .IsUnicode(false);
-        });
-
         modelBuilder.Entity<SbaccountJay>(entity =>
         {
             entity.HasKey(e => e.AccountNumber).HasName("PK__SBAccoun__BE2ACD6E03996350");
@@ -69,6 +53,27 @@ public partial class Ace52024Context : DbContext
             entity.HasOne(d => d.AccountNumberNavigation).WithMany(p => p.SbtransactionJays)
                 .HasForeignKey(d => d.AccountNumber)
                 .HasConstraintName("fk");
+        });
+
+        modelBuilder.Entity<UsertblJay>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__UsertblJ__3213E83FD58D334A");
+
+            entity.ToTable("UsertblJay");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("email");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("name");
+            entity.Property(e => e.Password)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("password");
         });
 
         OnModelCreatingPartial(modelBuilder);

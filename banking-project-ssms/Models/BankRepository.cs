@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
 
 namespace banking_project_ssms.Models
 {
@@ -75,7 +76,16 @@ namespace banking_project_ssms.Models
         }
         public List<SbtransactionJay>? GetTransactions(int accno)
         {
-            return [.. db.SbtransactionJays.Where(x => x.AccountNumber == accno)];
+            var result = db.SbaccountJays.Include(x => x.SbtransactionJays);
+            List<SbtransactionJay> res = [];
+            foreach(var item in result)
+            {
+                if(item.AccountNumber == accno) 
+                {
+                    res = [.. item.SbtransactionJays];
+                }
+            }
+            return res;
         }
     }
 }
