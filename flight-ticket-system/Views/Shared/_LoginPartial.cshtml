@@ -8,17 +8,13 @@
     @if (ViewBag.Data != null)
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-controller="Home" asp-action="Privacy" title="Manage">Hello
-                @ViewBag.Data!</a>
+            <a id="manage" class="nav-link text-dark" asp-controller="Home" asp-action="Profile">Profile</a>
         </li>
         <li class="nav-item">
-            @*<form id="logoutForm" class="form-inline" asp-controller="Login" asp-action="Logout"
-        asp-route-returnUrl="@Url.Action("Login", "Login", new { area = "" })">*@
             <form>
                 <button id="logout" type="submit" class="nav-link btn btn-link text-dark" asp-controller="Login"
                     asp-action="Logout">Logout</button>
             </form>
-            @*</form>*@
         </li>
     }
     else

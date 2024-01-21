@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Home Page";
-    List<FlightsJay>? flights = ViewBag.searchedFlights as List<FlightsJay>;
 }
 
 <div class="text-center">
@@ -12,11 +11,17 @@
         <form asp-action="Index" class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group col-md-6 mb-3">
-                <input asp-for="DepartureAirportCode" class="form-control" placeholder="Deaprture city" />
+                @* <input asp-for="DepartureAirportCode" class="form-control" placeholder="Deaprture city" /> *@
+                <select asp-for="DepartureAirportCode" asp-items="@(ViewBag.depCodes)" class="form-control">
+                    <option value="">Select Departure City</option>
+                </select>
                 <span asp-validation-for="DepartureAirportCode" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6 mb-3">
-                <input asp-for="ArrivalAirportCode" class="form-control" placeholder="Arrival city" />
+                @* <input asp-for="ArrivalAirportCode" class="form-control" placeholder="Arrival city" /> *@
+                <select asp-for="ArrivalAirportCode" asp-items="@(ViewBag.arrCodes)" class="form-control">
+                    <option value="">Select Arrival City</option>
+                </select>
                 <span asp-validation-for="ArrivalAirportCode" class="text-danger"></span>
             </div>
             <div class="form-group col-md-6 mb-3">
@@ -28,12 +33,13 @@
             </div>
         </form>
     </div>
-    @if (flights != null && flights.Any())
+    @if (ViewBag.searchedFlights != null)
     {
         <div class="mt-5 d-flex flex-column align-items-center w-100">
-            @foreach (FlightsJay flight in flights)
+            @foreach (FlightsJay flight in ViewBag.searchedFlights)
             {
-                <div class="d-flex align-items-center border rounded mb-5 w-75">
+                <a class="w-75 text-dark text-decoration-none" asp-action="FlightDetails" asp-controller="Home" asp-route-id="@flight.FlightNumber">
+                <div class="d-flex align-items-center border rounded mb-5 ">
                     <img src="/images/pic.jpg" alt='some-img' class="rounded-left" />
                     <div class="p-3 text-start">
                         <p class="fw-bold">@flight.DepartureAirportCode TO @flight.ArrivalCode</p>
@@ -41,6 +47,7 @@
                         <p class="text-primary fs-3 fw-bold">Rs. @flight.TicketPrice</p>
                     </div>
                 </div>
+                </a>
             }
         </div>
     }

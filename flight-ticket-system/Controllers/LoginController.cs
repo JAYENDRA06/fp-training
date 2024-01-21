@@ -30,7 +30,10 @@ namespace first_mvc_application.Controllers
             if (u == null) return View();
             else
             {
-                if (u.Name != null) HttpContext.Session.SetString("uname", u.Name);
+                if (u.Name != null){
+                    HttpContext.Session.SetString("uname", u.Name);
+                    HttpContext.Session.SetInt32("uid", u.PassengerId);
+                }
                 return RedirectToAction("LoginSuccess", "Login");
             }
         }

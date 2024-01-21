@@ -1,0 +1,46 @@
+@model flight_ticket_system.Models.BookingsJay
+
+@{
+    ViewData["Title"] = "BookFlight";
+}
+
+<h1>Confirm your booking</h1>
+
+<div>
+    <a asp-action="FlightDetails">Flight details</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="BookFlight">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FlightNumber" class="control-label"></label>
+                <input asp-for="FlightNumber" class="form-control" readonly />
+                <span asp-validation-for="FlightNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookingDate" class="control-label"></label>
+                <input asp-for="BookingDate" class="form-control" readonly />
+                <span asp-validation-for="BookingDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalCost" class="control-label"></label>
+                <input asp-for="TotalCost" class="form-control" readonly />
+                <span asp-validation-for="TotalCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Passengers" class="control-label"></label>
+                <input asp-for="Passengers" class="form-control" />
+                <span asp-validation-for="Passengers" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
