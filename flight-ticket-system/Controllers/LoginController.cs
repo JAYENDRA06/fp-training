@@ -26,7 +26,7 @@ namespace first_mvc_application.Controllers
         [HttpPost]
         public IActionResult Login(PassengersJay _user)
         {
-            PassengersJay? u = db.PassengersJays.Where(user => user.Email == _user.Email && user.Password == _user.Password).SingleOrDefault();
+            PassengersJay? u = db.PassengersJays.Where(user => user.Email == _user.Email && user.Password == _user.Password).FirstOrDefault();
             if (u == null) return View();
             else
             {

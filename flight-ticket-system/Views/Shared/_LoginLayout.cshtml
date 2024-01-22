@@ -8,17 +8,12 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/flight_ticket_system.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <div class="container">
-        <main role="main" class="pb-3">
+<body class="m-0 p-0">
+    <div>
+        <main role="main" class="m-0 text-white" style="height: 97vh; background-image: url('/images/bg.jpg'); background-size: cover; background-position center; background-repeat: no-repeat">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Yourportal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

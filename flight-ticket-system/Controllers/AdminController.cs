@@ -1,5 +1,7 @@
 using flight_ticket_system.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace flight_ticket_system.Controllers;
 
@@ -80,6 +82,10 @@ public class AdminController(Ace52024Context _db) : Controller
     public IActionResult AddFlight()
     {
         if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+
+        ViewBag.airports = new SelectList(db.AirportsJays.Select(x => x.AirportCode));
+        ViewBag.airlines = new SelectList(db.AirlinesJays.Select(x => x.AirlineCode));
+
         return View();
     }
 
@@ -128,7 +134,8 @@ public class AdminController(Ace52024Context _db) : Controller
     public IActionResult DetailsFlight(string id)
     {
         if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.FlightsJays.Find(id));
+        FlightsJay? flight = db.FlightsJays.Include(f => f.AirlineCodeNavigation).Include(f => f.DepartureAirportCodeNavigation).Include(f => f.ArrivalCodeNavigation).FirstOrDefault(f => f.FlightNumber == id);
+        return View(flight);
     }
 
     ////////// FLIGHTS //////////
@@ -249,4 +256,22 @@ public class AdminController(Ace52024Context _db) : Controller
 
 
     ////////// AIRPORTS //////////
+    
+    ////////// BOOKINGS //////////
+    
+    [HttpGet]
+    public IActionResult Bookings(int id)
+    {
+        return View(db.BookingsJays.Where(b => b.PassengerId == id));
+    } 
+
+    [HttpGet]
+    public IActionResult DetailsBooking(int id)
+    {
+        BookingsJay? bookings = db.BookingsJays.Include(x => x.FlightNumberNavigation).ThenInclude(f => f.AirlineCodeNavigation).Include(x => x.FlightNumberNavigation).ThenInclude(f => f.ArrivalCodeNavigation).Include(x => x.FlightNumberNavigation).ThenInclude(f => f.DepartureAirportCodeNavigation).FirstOrDefault(y => y.BookingId == id);
+        return View(bookings);
+    }
+
+    ////////// BOOKINGS //////////
+
 }

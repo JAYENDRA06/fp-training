@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "bEKpC6Xw93UxjyvqaG4UBBttDbvmlbNqFQwqzhlPIg0=",
+  "Hash": "UrTkN9xjcuE+jAjcbwHUgdpQ86wbDaMPTySvTWtu3+Q=",
   "Source": "flight-ticket-system",
   "BasePath": "_content/flight-ticket-system",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\flight-ticket-system\\wwwroot\\images\\bg.jpg",
+      "SourceId": "flight-ticket-system",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\flight-ticket-system\\wwwroot\\",
+      "BasePath": "_content/flight-ticket-system",
+      "RelativePath": "images/bg.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\bg.jpg"
     },
     {
       "Identity": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\flight-ticket-system\\wwwroot\\images\\pic.jpg",

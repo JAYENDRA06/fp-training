@@ -49,7 +49,8 @@ public class HomeController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult Profile()
     {
-        int id = ViewBag.username = HttpContext.Session.GetInt32("uid");
+        int? id = HttpContext.Session.GetInt32("uid");
+        if (id == null) return RedirectToAction("Login", "Login");
         return View(db.PassengersJays.Find(id));
     }
 
@@ -64,37 +65,40 @@ public class HomeController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult FlightDetails(string id)
     {
-        return View(db.FlightsJays.Find(id));
+        FlightsJay? flight = db.FlightsJays.Include(f => f.AirlineCodeNavigation).Include(f => f.DepartureAirportCodeNavigation).Include(f => f.ArrivalCodeNavigation).FirstOrDefault(f => f.FlightNumber == id);
+        return View(flight);
     }
 
     [HttpGet]
     public IActionResult Bookings()
     {
         int? id = HttpContext.Session.GetInt32("uid");
-        if(id == null) return RedirectToAction("Login", "Login");
+        if (id == null) return RedirectToAction("Login", "Login");
 
-        return View(db.BookingsJays.Find(id));
+        return View(db.BookingsJays.Where(b => b.PassengerId == id));
     }
 
     [HttpGet]
     public IActionResult DetailsBooking(int id)
     {
-        BookingsJay? bookings = db.BookingsJays.Include(x => x.FlightNumberNavigation).FirstOrDefault(y => y.PassengerId == id);
-        if(bookings == null) return RedirectToAction("Bookings");
-        return View(bookings);
+        BookingsJay? booking = db.BookingsJays.Include(x => x.FlightNumberNavigation).ThenInclude(f => f.AirlineCodeNavigation).Include(x => x.FlightNumberNavigation).ThenInclude(f => f.ArrivalCodeNavigation).Include(x => x.FlightNumberNavigation).ThenInclude(f => f.DepartureAirportCodeNavigation).FirstOrDefault(y => y.BookingId == id);
+        if (booking == null) return RedirectToAction("Bookings");
+        return View(booking);
     }
 
     [HttpGet]
     public IActionResult BookFlight(string id)
     {
-        if(HttpContext.Session.GetInt32("uid") == null) return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetInt32("uid") == null) return RedirectToAction("Login", "Login");
         FlightsJay? flight = db.FlightsJays.Find(id);
-        if(flight == null) return Error();
+        if (flight == null) return RedirectToAction("ErrorPage", new { msg = "No flights were found" });
 
-        BookingsJay booking = new() {
+        BookingsJay booking = new()
+        {
             FlightNumber = flight.FlightNumber,
             PassengerId = HttpContext.Session.GetInt32("uid"),
-            BookingDate = DateTime.Now
+            BookingDate = DateTime.Now,
+            TotalCost = flight.TicketPrice
         };
 
         return View(booking);
@@ -104,10 +108,15 @@ public class HomeController(Ace52024Context _db) : Controller
     public IActionResult BookFlight(BookingsJay booking)
     {
         FlightsJay? flight = db.FlightsJays.Find(booking.FlightNumber);
-        if(flight == null) return Error();
+        if (flight == null) return RedirectToAction("ErrorPage", new { msg = "No flights were found" });
 
         flight.AvailableSeats -= booking.Passengers;
-        
+
+        if (flight.AvailableSeats < 0) return RedirectToAction("ErrorPage", new { msg = "Sorry! " + booking.Passengers + " seats not available" });
+
+        booking.TotalCost *= booking.Passengers;
+        booking.PassengerId = HttpContext.Session.GetInt32("uid");
+
         db.FlightsJays.Update(flight);
         db.BookingsJays.Add(booking);
         db.SaveChanges();
@@ -118,6 +127,13 @@ public class HomeController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult Privacy()
     {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult ErrorPage(string? msg)
+    {
+        ViewBag.msg = msg;
         return View();
     }
 

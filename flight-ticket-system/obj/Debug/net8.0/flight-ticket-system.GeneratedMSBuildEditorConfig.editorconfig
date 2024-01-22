@@ -38,6 +38,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkRmxpZ2h0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Admin/Bookings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQm9va2luZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Admin/DeleteAirline.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlQWlybGluZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -52,6 +56,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Admin/DeleteUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlVXNlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Admin/DetailsBooking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGV0YWlsc0Jvb2tpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Admin/DetailsFlight.cshtml]
@@ -108,6 +116,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Home/DetailsBooking.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZXRhaWxzQm9va2luZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Home/ErrorPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvclBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/J.A.th22/Desktop/dotnet training/fp-training/flight-ticket-system/Views/Home/FlightDetails.cshtml]

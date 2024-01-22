@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\flight-ticket-system\\wwwroot\\images\\bg.jpg",
+      "PackagePath": "staticwebassets\\images\\bg.jpg"
+    },
+    {
       "Id": "C:\\Users\\J.A.th22\\Desktop\\dotnet training\\fp-training\\flight-ticket-system\\wwwroot\\images\\pic.jpg",
       "PackagePath": "staticwebassets\\images\\pic.jpg"
     },
