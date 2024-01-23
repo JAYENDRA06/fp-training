@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace firstapi.Models;
 
@@ -16,11 +17,6 @@ public partial class PassengersJay
     [Required(ErrorMessage = "Password is required")]
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
-
-    [Required(ErrorMessage = "Confirm password is required")]
-    [DataType(DataType.Password)]
-    [Compare("Password", ErrorMessage = "Password and confirm passwords don't match")]
-    public string ConfirmPassword { get; set; } = null!;
 
     [Required(ErrorMessage = "Name is required")]
     public string Name { get; set; } = null!;

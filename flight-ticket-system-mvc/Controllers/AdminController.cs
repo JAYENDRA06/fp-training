@@ -1,7 +1,9 @@
+using System.Net.Http.Headers;
 using flight_ticket_system.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace flight_ticket_system.Controllers;
 
@@ -12,23 +14,40 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View();
     }
 
     ////////// USERS //////////
 
     [HttpGet]
-    public IActionResult ShowUsers()
+    public async Task<IActionResult> ShowUsers()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.PassengersJays);
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+
+        List<PassengersJay>? users = [];
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Passenger");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            users = JsonConvert.DeserializeObject<List<PassengersJay>>(usersRes);
+        }
+
+        return View(users);
     }
 
     [HttpGet]
     public IActionResult DeleteUser(int id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         PassengersJay? user = db.PassengersJays.Find(id);
         return View(user);
     }
@@ -44,10 +63,26 @@ public class AdminController(Ace52024Context _db) : Controller
     }
 
     [HttpGet]
-    public IActionResult EditUser(int id)
+    public async Task<IActionResult> EditUserAsync(int id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        PassengersJay? user = db.PassengersJays.Find(id);
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+
+        PassengersJay? user = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Passenger/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            user = JsonConvert.DeserializeObject<PassengersJay>(usersRes);
+        }
+
         return View(user);
     }
 
@@ -62,7 +97,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult DetailsUser(int id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         PassengersJay? user = db.PassengersJays.Find(id);
         return View(user);
     }
@@ -74,14 +109,14 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult ShowFlights()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.FlightsJays);
     }
 
     [HttpGet]
     public IActionResult AddFlight()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
 
         ViewBag.airports = new SelectList(db.AirportsJays.Select(x => x.AirportCode));
         ViewBag.airlines = new SelectList(db.AirlinesJays.Select(x => x.AirlineCode));
@@ -92,7 +127,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpPost]
     public IActionResult AddFlight(FlightsJay flight)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         db.FlightsJays.Add(flight);
         db.SaveChanges();
         return RedirectToAction("ShowFlights");
@@ -101,7 +136,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult EditFlight(string id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.FlightsJays.Find(id));
     }
 
@@ -116,7 +151,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult DeleteFlight(string id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.FlightsJays.Find(id));
     }
 
@@ -133,7 +168,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult DetailsFlight(string id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         FlightsJay? flight = db.FlightsJays.Include(f => f.AirlineCodeNavigation).Include(f => f.DepartureAirportCodeNavigation).Include(f => f.ArrivalCodeNavigation).FirstOrDefault(f => f.FlightNumber == id);
         return View(flight);
     }
@@ -145,14 +180,14 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult ShowAirlines()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.AirlinesJays);
     }
 
     [HttpGet]
     public IActionResult AddAirline()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View();
     }
 
@@ -167,7 +202,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult EditAirline(string id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.AirlinesJays.Find(id));
     }
 
@@ -182,7 +217,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult DeleteAirline(string id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.AirlinesJays.Find(id));
     }
 
@@ -203,14 +238,14 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult ShowAirports()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.AirportsJays);
     }
 
     [HttpGet]
     public IActionResult AddAirport()
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View();
     }
 
@@ -225,7 +260,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult EditAirport(string id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.AirportsJays.Find(id));
     }
 
@@ -240,7 +275,7 @@ public class AdminController(Ace52024Context _db) : Controller
     [HttpGet]
     public IActionResult DeleteAirport(string id)
     {
-        if(HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
         return View(db.AirportsJays.Find(id));
     }
 
@@ -256,14 +291,14 @@ public class AdminController(Ace52024Context _db) : Controller
 
 
     ////////// AIRPORTS //////////
-    
+
     ////////// BOOKINGS //////////
-    
+
     [HttpGet]
     public IActionResult Bookings(int id)
     {
         return View(db.BookingsJays.Where(b => b.PassengerId == id));
-    } 
+    }
 
     [HttpGet]
     public IActionResult DetailsBooking(int id)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace firstapi.Models;
 
@@ -16,7 +17,9 @@ public partial class AirportsJay
     [Required(ErrorMessage = "City name is required")]
     public string City { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual ICollection<FlightsJay> FlightsJayArrivalCodeNavigations { get; set; } = new List<FlightsJay>();
 
+    [JsonIgnore]
     public virtual ICollection<FlightsJay> FlightsJayDepartureAirportCodeNavigations { get; set; } = new List<FlightsJay>();
 }

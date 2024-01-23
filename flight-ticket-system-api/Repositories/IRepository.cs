@@ -35,5 +35,14 @@ namespace firstapi.Repositories
         public bool AirportExists(string id);
 
         public bool FlightExists(string id);
+
+        public Task<IEnumerable<PassengersJay>> GetAllPassengers();
+
+        public Task<PassengersJay?> GetPassenger(int id);
+
+        public Task<IEnumerable<BookingsJay>> ViewBookings(int id);
+
+        public Task<BookingsJay?> DetailsBooking(int id);
+
     }
 }

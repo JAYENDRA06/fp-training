@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace firstapi.Models;
 
@@ -36,11 +37,15 @@ public partial class FlightsJay
     [Required(ErrorMessage = "Ticket price is required")]
     public decimal TicketPrice { get; set; }
 
+    // [JsonIgnore]
     public virtual AirlinesJay? AirlineCodeNavigation { get; set; }
 
+    // [JsonIgnore]
     public virtual AirportsJay? ArrivalCodeNavigation { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<BookingsJay> BookingsJays { get; set; } = new List<BookingsJay>();
 
+    // [JsonIgnore]
     public virtual AirportsJay? DepartureAirportCodeNavigation { get; set; }
 }

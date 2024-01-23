@@ -86,5 +86,32 @@ namespace firstapi.Repositories
 
         ////// Airports ///////
         
+
+        ////// Passengers ///////
+        
+        public async Task<IEnumerable<PassengersJay>> GetAllPassengers()
+        {
+            return await _context.PassengersJays.ToListAsync();
+        }
+
+        public async Task<PassengersJay?> GetPassenger(int id)
+        {
+            PassengersJay? passenger = await _context.PassengersJays.FindAsync(id);
+            return passenger;
+        }
+
+        public async Task<IEnumerable<BookingsJay>> ViewBookings(int id)
+        {
+            return await _context.BookingsJays.Where(b => b.PassengerId == id).ToListAsync();
+        }
+
+        public async Task<BookingsJay?> DetailsBooking(int id)
+        {
+            BookingsJay? booking = await _context.BookingsJays.Include(b => b.FlightNumberNavigation).ThenInclude(f => f.AirlineCodeNavigation).Include(b => b.FlightNumberNavigation).ThenInclude(f => f.ArrivalCodeNavigation).Include(b => b.FlightNumberNavigation).ThenInclude(f => f.DepartureAirportCodeNavigation).FirstOrDefaultAsync(b => b.BookingId == id);
+            return booking;
+        }
+
+        ////// Passengers ///////
+        
     }
 }

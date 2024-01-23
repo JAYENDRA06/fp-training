@@ -19,10 +19,10 @@ namespace firstapi.Controllers
         public async Task<ActionResult> Register(PassengersJay passenger)
         {
             if (UserExists(passenger.Email)) return Conflict();
-            if (passenger.Password != passenger.ConfirmPassword)
-            {
-                throw new Exception("Password and confirm passwords don't match");
-            }
+            // if (passenger.Password != passenger.ConfirmPassword)
+            // {
+            //     throw new Exception("Password and confirm passwords don't match");
+            // }
             _context.PassengersJays.Add(passenger);
             await _context.SaveChangesAsync();
 
@@ -33,10 +33,10 @@ namespace firstapi.Controllers
         public async Task<ActionResult> Login(PassengersJay passenger)
         {
             if (UserExists(passenger.Email)) return Conflict();
-            if (passenger.Password != passenger.ConfirmPassword)
-            {
-                throw new Exception("Password and confirm passwords don't match");
-            }
+            // if (passenger.Password != passenger.ConfirmPassword)
+            // {
+            //     throw new Exception("Password and confirm passwords don't match");
+            // }
             _context.PassengersJays.Add(passenger);
             await _context.SaveChangesAsync();
 

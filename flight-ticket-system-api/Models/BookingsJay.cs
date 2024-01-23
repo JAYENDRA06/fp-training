@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace firstapi.Models;
 
@@ -26,5 +27,6 @@ public partial class BookingsJay
 
     public virtual FlightsJay? FlightNumberNavigation { get; set; }
 
+    [JsonIgnore]
     public virtual PassengersJay? Passenger { get; set; }
 }
