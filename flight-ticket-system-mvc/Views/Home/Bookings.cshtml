@@ -1,0 +1,55 @@
+@model IEnumerable<flight_ticket_system.Models.BookingsJay>
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<h1>Your bookings</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Booking Id
+            </th>
+            <th>
+                Flight number
+            </th>
+            <th>
+                Booking date
+            </th>
+            <th>
+                Total cost
+            </th>
+            <th>
+                Passenger count
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlightNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Passengers)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "DetailsBooking", new { id = item.BookingId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,77 @@
+@model flight_ticket_system.Models.FlightsJay
+
+@{
+    ViewData["Title"] = "FlightDetails";
+}
+
+<h1>Flight details</h1>
+
+<div>
+    <a asp-action="Index" class="text-decoration-none">< Back</a>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Flight number
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            Flight nanme
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FlightName)
+        </dd>
+        <dt class = "col-sm-2">
+            Departure airport
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DepartureAirportCodeNavigation.AirportName) (@Html.DisplayFor(model => model.DepartureAirportCode))
+        </dd>
+        <dt class = "col-sm-2">
+            Aiirval airport
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArrivalCodeNavigation.AirportName)  (@Html.DisplayFor(model => model.ArrivalCode))
+        </dd>
+        <dt class = "col-sm-2">
+            Airline code
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AirlineCode)
+        </dd>
+        <dt class = "col-sm-2">
+            Airline name
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AirlineCodeNavigation.AirlineName)
+        </dd>
+        <dt class = "col-sm-2">
+            Departure date and time
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DepartureDateTime)
+        </dd>
+        <dt class = "col-sm-2">
+            Arrival date and time
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ArrivalDateTime)
+        </dd>
+        <dt class = "col-sm-2">
+            Seats available
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AvailableSeats)
+        </dd>
+        <dt class = "col-sm-2">
+            Ticket price
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TicketPrice)
+        </dd>
+    </dl>
+</div>
+<a class="btn btn-primary px-4" asp-action="BookFlight" asp-route-id = "@Model.FlightNumber">
+    Book this flight
+</a>

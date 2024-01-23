@@ -1,0 +1,54 @@
+@model flight_ticket_system.Models.SearchFlight
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome @ViewBag.username</h1>
+    <div>
+        <h3 class="mb-5">Book your one way flights</h3>
+        <form asp-action="Index" class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-6 mb-3">
+                @* <input asp-for="DepartureAirportCode" class="form-control" placeholder="Deaprture city" /> *@
+                <select asp-for="DepartureAirportCode" asp-items="@(ViewBag.depCodes)" class="form-control">
+                    <option value="">Select Departure City</option>
+                </select>
+                <span asp-validation-for="DepartureAirportCode" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                @* <input asp-for="ArrivalAirportCode" class="form-control" placeholder="Arrival city" /> *@
+                <select asp-for="ArrivalAirportCode" asp-items="@(ViewBag.arrCodes)" class="form-control">
+                    <option value="">Select Arrival City</option>
+                </select>
+                <span asp-validation-for="ArrivalAirportCode" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 mb-3">
+                <input asp-for="DepartureDateTime" class="form-control" placeholder="Date and time" />
+                <span asp-validation-for="DepartureDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6 mb-3 d-flex justify-content-end">
+                <input type="submit" value="Search" class="btn btn-primary px-5" />
+            </div>
+        </form>
+    </div>
+    @if (ViewBag.searchedFlights != null)
+    {
+        <div class="mt-5 d-flex flex-column align-items-center w-100">
+            @foreach (FlightsJay flight in ViewBag.searchedFlights)
+            {
+                <a class="w-75 text-dark text-decoration-none" asp-action="FlightDetails" asp-controller="Home" asp-route-id="@flight.FlightNumber">
+                <div class="d-flex align-items-center border rounded mb-5 ">
+                    <img src="/images/pic.jpg" alt='some-img' class="rounded-left" />
+                    <div class="p-3 text-start">
+                        <p class="fw-bold">@flight.DepartureAirportCode TO @flight.ArrivalCode</p>
+                        <p>Departure: <span>@flight.DepartureDateTime</span></p>
+                        <p class="text-primary fs-3 fw-bold">Rs. @flight.TicketPrice</p>
+                    </div>
+                </div>
+                </a>
+            }
+        </div>
+    }
+</div>

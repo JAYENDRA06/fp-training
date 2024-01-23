@@ -1,0 +1,72 @@
+@model IEnumerable<flight_ticket_system.Models.FlightsJay>
+
+@{
+    ViewData["Title"] = "ShowFlights";
+    Layout = "_AdminLayout";
+}
+
+<h1>Flights</h1>
+
+<p>
+    <a asp-action="AddFlight">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Flight number
+            </th>
+            <th>
+                Flight name
+            </th>
+            <th>
+                Departure airport code
+            </th>
+            <th>
+                Arrival airport code
+            </th>
+            <th>
+                Airline code
+            </th>
+            <th>
+                Departure date and time
+            </th>
+            <th>
+                Arrival date and time
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartureAirportCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArrivalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AirlineCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartureDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArrivalDateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditFlight", new { id = item.FlightNumber }) |
+                @Html.ActionLink("Details", "DetailsFlight", new { id = item.FlightNumber }) |
+                @Html.ActionLink("Delete", "DeleteFlight", new { id = item.FlightNumber })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

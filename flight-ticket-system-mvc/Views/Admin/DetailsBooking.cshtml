@@ -1,0 +1,83 @@
+@model flight_ticket_system.Models.BookingsJay
+
+@{
+    ViewData["Title"] = "DetailsBooking";
+    Layout = "_AdminLayout";
+}
+
+<h1>Details of your booking</h1>
+
+<div>
+    <div>
+        <a asp-action="Bookings">Back</a>
+    </div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Booking number
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BookingId)
+        </dd>
+        <dt class="col-sm-2">
+            Flight number
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumber)
+        </dd>
+        <dt class="col-sm-2">
+            Airline
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumberNavigation.AirlineCodeNavigation.AirlineName)
+        </dd>
+        <dt class="col-sm-2">
+            Flight name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumberNavigation.FlightName)
+        </dd>
+        <dt class="col-sm-2">
+            Departure airport
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumberNavigation.DepartureAirportCodeNavigation.AirportName) (@Html.DisplayFor(model => model.FlightNumberNavigation.DepartureAirportCode))
+        </dd>
+        <dt class="col-sm-2">
+            Arrival airport
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumberNavigation.ArrivalCodeNavigation.AirportName) (@Html.DisplayFor(model => model.FlightNumberNavigation.ArrivalCode))
+        </dd>
+        <dt class="col-sm-2">
+            Departure date and time
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumberNavigation.DepartureDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            Arrival date and time
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlightNumberNavigation.ArrivalDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            Date of booking
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BookingDate)
+        </dd>
+        <dt class="col-sm-2">
+            Total cost
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalCost)
+        </dd>
+        <dt class="col-sm-2">
+            Passengers
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Passengers)
+        </dd>
+    </dl>
+</div>
