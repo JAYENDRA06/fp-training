@@ -18,12 +18,9 @@ public partial class PassengersJay
     [DataType(DataType.Password)]
     public string Password { get; set; } = null!;
 
-    [Required(ErrorMessage = "Name is required")]
-    public string Name { get; set; } = null!;
+    public string? Name { get; set; }
 
-    [Required(ErrorMessage = "Address is required")]
-    [DataType(DataType.MultilineText)]
-    public string Address { get; set; } = null!;
+    public string? Address { get; set; }
 
     public virtual ICollection<BookingsJay> BookingsJays { get; set; } = new List<BookingsJay>();
 }

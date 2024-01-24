@@ -65,7 +65,7 @@ namespace firstapi.Repositories
         ////// Airports ///////
         
 
-        ////// Airports ///////
+        ////// Flights ///////
         
         public async Task<IEnumerable<FlightsJay>> GetAllFlights()
         {
@@ -84,7 +84,7 @@ namespace firstapi.Repositories
             return _context.FlightsJays.Any(e => e.FlightNumber == id);
         }
 
-        ////// Airports ///////
+        ////// Flights ///////
         
 
         ////// Passengers ///////

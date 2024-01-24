@@ -22,10 +22,18 @@ namespace firstapi.Repositories
 
         public Task<BookingsJay?> DetailsBooking(int id);
 
+        public Task<IEnumerable<FlightsJay>> GetAllFlights();
+
         public Task<FlightsJay?> GetFlight(string id);
 
         public Task UpdateFlight(FlightsJay flight);
 
         public Task BookFlight(BookingsJay booking);
+
+        public Task<IEnumerable<AirportsJay>> GetAllAirports();
+
+        public Task Register(PassengersJay user);
+
+        public Task<PassengersJay> Login(PassengersJay user);
     }
 }

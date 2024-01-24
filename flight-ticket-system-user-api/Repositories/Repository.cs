@@ -40,10 +40,10 @@ namespace firstapi.Repositories
         }
 
         ////// Passengers ///////
-        
+
 
         ////// Flights ///////
-        
+
         public async Task<FlightsJay?> GetFlight(string id)
         {
             FlightsJay? flights = await _context.FlightsJays.Include(f => f.AirlineCodeNavigation).Include(f => f.DepartureAirportCodeNavigation).Include(f => f.ArrivalCodeNavigation).FirstOrDefaultAsync(f => f.FlightNumber == id);
@@ -57,12 +57,47 @@ namespace firstapi.Repositories
         }
 
         public async Task BookFlight(BookingsJay booking)
-        {   
+        {
             _context.BookingsJays.Add(booking);
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<FlightsJay>> GetAllFlights()
+        {
+            List<FlightsJay> flights = await _context.FlightsJays.Include(f => f.AirlineCodeNavigation).Include(f => f.DepartureAirportCodeNavigation).Include(f => f.ArrivalCodeNavigation).ToListAsync();
+            return flights;
+        }
+
         ////// Flights ///////
+
+
+        ////// Airports ///////
+
+        public async Task<IEnumerable<AirportsJay>> GetAllAirports()
+        {
+            return await _context.AirportsJays.ToListAsync();
+        }
+
+        ////// Airports ///////
+
+        ////// Passengers ///////
+
+        public async Task Register(PassengersJay user)
+        {
+            PassengersJay? pass = _context.PassengersJays.FirstOrDefault(p => p.Email == user.Email);
+            if (pass != null) throw new Exception("User already exists");
+
+            await _context.PassengersJays.AddAsync(user);
+        }
+        public async Task<PassengersJay> Login(PassengersJay user)
+        {
+            PassengersJay? pass = await _context.PassengersJays.FirstOrDefaultAsync(p => p.Email == user.Email && p.Password == user.Password);
+            if(pass == null) throw new Exception("Failed to login");
+
+            return pass;
+        }
+
+        ////// Passengers ///////
 
     }
 }

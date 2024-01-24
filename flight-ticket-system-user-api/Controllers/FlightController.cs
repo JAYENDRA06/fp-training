@@ -16,6 +16,12 @@ namespace firstapi.Controllers
     {
         IRepository _repository = repository;
 
+        [HttpGet]
+        public async Task<IEnumerable<FlightsJay>> GetFlights()
+        {
+            return await _repository.GetAllFlights();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<FlightsJay>> GetFlight(string id)
         {
@@ -29,7 +35,7 @@ namespace firstapi.Controllers
             return flightsJay;
         }
 
-        [HttpPost("update-flight")]
+        [HttpPut("update-flight")]
         public async Task<ActionResult> UpdateFlight(FlightsJay flight)
         {
             await _repository.UpdateFlight(flight);

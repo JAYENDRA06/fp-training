@@ -10,41 +10,81 @@ using System.Text;
 
 namespace flight_ticket_system.Controllers;
 
-public class HomeController(Ace52024Context _db) : Controller
+public class HomeController() : Controller
 {
-    private readonly Ace52024Context db = _db;
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         ViewBag.username = HttpContext.Session.GetString("uname");
-        List<string?> departureCodes = [.. db.FlightsJays.Select(f => f.DepartureAirportCode).Distinct()];
-        List<string?> arrivalCodes = [.. db.FlightsJays.Select(f => f.ArrivalCode).Distinct()];
+        List<AirportsJay>? airports = [];
 
-        ViewBag.depCodes = new SelectList(departureCodes);
-        ViewBag.arrCodes = new SelectList(arrivalCodes);
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        Console.WriteLine(ViewBag.depCodes);
+        HttpResponseMessage res1 = await client.GetAsync("http://localhost:5049/api/user/Airport");
+
+        if (res1.IsSuccessStatusCode)
+        {
+            var usersRes = res1.Content.ReadAsStringAsync().Result;
+
+            airports = JsonConvert.DeserializeObject<List<AirportsJay>>(usersRes);
+        }
+
+        ViewBag.depCodes = new SelectList(airports?.Select(a => a.AirportCode));
+        ViewBag.arrCodes = new SelectList(airports?.Select(a => a.AirportCode));
+
         return View();
     }
 
     [HttpPost]
-    public IActionResult Index(SearchFlight searchFlight)
+    public async Task<IActionResult> Index(SearchFlight searchFlight)
     {
         DateTime? dep = searchFlight.DepartureDateTime;
         string? depCode = searchFlight.DepartureAirportCode;
         string? arrCode = searchFlight.ArrivalAirportCode;
 
-        List<FlightsJay> flights = [.. db.FlightsJays.Where(f => (dep == null || f.DepartureDateTime >= dep) && (depCode == null || f.DepartureAirportCode == depCode) && (arrCode == null || f.ArrivalCode == arrCode))];
+        ViewBag.username = HttpContext.Session.GetString("uname");
+
+        // For select inputs //
+
+        List<AirportsJay>? airports = [];
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res1 = await client.GetAsync("http://localhost:5049/api/user/Airport");
+
+        if (res1.IsSuccessStatusCode)
+        {
+            var usersRes = res1.Content.ReadAsStringAsync().Result;
+
+            airports = JsonConvert.DeserializeObject<List<AirportsJay>>(usersRes);
+        }
+
+        ViewBag.depCodes = new SelectList(airports?.Select(a => a.AirportCode));
+        ViewBag.arrCodes = new SelectList(airports?.Select(a => a.AirportCode));
+
+        // For select inputs //
+
+        // For searched flights //
+
+        List<FlightsJay>? searchedFlights = [];
+
+        HttpResponseMessage res2 = await client.GetAsync("http://localhost:5049/api/user/Flight");
+
+        if (res2.IsSuccessStatusCode)
+        {
+            var usersRes = res2.Content.ReadAsStringAsync().Result;
+
+            searchedFlights = JsonConvert.DeserializeObject<List<FlightsJay>>(usersRes);
+        }
+
+        List<FlightsJay> flights = [.. searchedFlights?.Where(f => (dep == null || f.DepartureDateTime >= dep) && (depCode == null || f.DepartureAirportCode == depCode) && (arrCode == null || f.ArrivalCode == arrCode))];
 
         ViewBag.searchedFlights = flights;
-        List<string?> departureCodes = db.FlightsJays.Select(f => f.DepartureAirportCode).Distinct().ToList();
-        List<string?> arrivalCodes = db.FlightsJays.Select(f => f.ArrivalCode).Distinct().ToList();
-
-        ViewBag.depCodes = new SelectList(departureCodes);
-        ViewBag.arrCodes = new SelectList(arrivalCodes);
-
-        ViewBag.username = HttpContext.Session.GetString("uname");
 
         return View("Index", searchFlight);
     }
@@ -75,18 +115,15 @@ public class HomeController(Ace52024Context _db) : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Profile(int id, PassengersJay passenger)
+    public async Task<IActionResult> Profile(int PassengerId, PassengersJay passenger)
     {
         HttpClient client = new();
         client.DefaultRequestHeaders.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        Console.WriteLine("passenger: " + passenger.PassengerId);
-        Console.WriteLine("id: " + id);
-
         HttpContent content = new StringContent(JsonConvert.SerializeObject(passenger), Encoding.UTF8, "application/json");
 
-        HttpResponseMessage res = await client.PutAsync($"http://localhost:5049/api/user/Passenger/{id}", content);
+        HttpResponseMessage res = await client.PutAsync($"http://localhost:5049/api/user/Passenger/{PassengerId}", content);
 
         if (!res.IsSuccessStatusCode)
         {

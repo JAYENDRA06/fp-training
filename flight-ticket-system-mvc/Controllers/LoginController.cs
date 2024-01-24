@@ -1,19 +1,20 @@
+using System.Net.Http.Headers;
+using System.Text;
 using flight_ticket_system.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace first_mvc_application.Controllers
 {
-    public class LoginController(Ace52024Context _db, IHttpContextAccessor httpContextAccessor) : Controller
+    public class LoginController() : Controller
     {
-        private readonly Ace52024Context db = _db;
-        private readonly ISession session = httpContextAccessor.HttpContext.Session;
-        
+
         [HttpGet]
         public IActionResult LoginSuccess()
         {
             string? temp = HttpContext.Session.GetString("uname");
-            if(temp == "admin") return RedirectToAction("Index", "Admin");
-            else if(temp != null) return RedirectToAction("Index", "Home");
+            if (temp == "admin") return RedirectToAction("Index", "Admin");
+            else if (temp != null) return RedirectToAction("Index", "Home");
             else return RedirectToAction("Login");
         }
 
@@ -24,18 +25,30 @@ namespace first_mvc_application.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(PassengersJay _user)
+        public async Task<IActionResult> Login(PassengersJay _user)
         {
-            PassengersJay? u = db.PassengersJays.Where(user => user.Email == _user.Email && user.Password == _user.Password).FirstOrDefault();
-            if (u == null) return View();
-            else
+            HttpClient client = new();
+            client.DefaultRequestHeaders.Clear();
+
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(_user), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage res = await client.PutAsync("http://localhost:5049/api/Login/login", content);
+
+            if (!res.IsSuccessStatusCode)
             {
-                if (u.Name != null){
-                    HttpContext.Session.SetString("uname", u.Name);
-                    HttpContext.Session.SetInt32("uid", u.PassengerId);
-                }
-                return RedirectToAction("LoginSuccess", "Login");
+                var usersRes = res.Content.ReadAsStringAsync().Result;
+                PassengersJay? userRet = JsonConvert.DeserializeObject<PassengersJay>(usersRes);
+
+                System.Console.WriteLine("user", userRet.Email);
+
+                HttpContext.Session.SetString("uname", userRet.Name);
+                HttpContext.Session.SetInt32("uid", userRet.PassengerId);
+                return RedirectToAction("LoginSuccess", "Login");       
             }
+
+            return View();
         }
 
         [HttpGet]
@@ -45,11 +58,23 @@ namespace first_mvc_application.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(PassengersJay _user)
+        public async Task<IActionResult> Register(PassengersJay _user)
         {
-            db.PassengersJays.Add(_user);
-            db.SaveChanges();
-            return RedirectToAction("Login");
+            HttpClient client = new();
+            client.DefaultRequestHeaders.Clear();
+
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(_user), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage res = await client.PutAsync("http://localhost:5049/api/Login/register", content);
+
+            if (!res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Login");       
+            }
+
+            return View();
         }
 
         public IActionResult Logout()
