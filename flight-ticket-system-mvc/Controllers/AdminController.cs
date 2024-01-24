@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Text;
 using flight_ticket_system.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -7,10 +8,8 @@ using Newtonsoft.Json;
 
 namespace flight_ticket_system.Controllers;
 
-public class AdminController(Ace52024Context _db) : Controller
+public class AdminController() : Controller
 {
-    private readonly Ace52024Context db = _db;
-
     [HttpGet]
     public IActionResult Index()
     {
@@ -45,25 +44,51 @@ public class AdminController(Ace52024Context _db) : Controller
     }
 
     [HttpGet]
-    public IActionResult DeleteUser(int id)
+    public async Task<IActionResult> DeleteUser(int id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        PassengersJay? user = db.PassengersJays.Find(id);
+        
+        PassengersJay? user = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Passenger/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            user = JsonConvert.DeserializeObject<PassengersJay>(usersRes);
+        }
+
         return View(user);
     }
 
     [HttpPost]
     [ActionName("DeleteUser")]
-    public IActionResult DeleteUserPost(int id)
+    public async Task<IActionResult> DeleteUserPost(int id)
     {
-        PassengersJay? user = db.PassengersJays.Find(id);
-        if (user != null) db.PassengersJays.Remove(user);
-        db.SaveChanges();
-        return RedirectToAction("ShowUsers");
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.DeleteAsync($"http://localhost:5039/api/admin/Passenger/{id}");
+
+        if(res.IsSuccessStatusCode)
+        {
+            return RedirectToAction("ShowUsers");
+        }
+        else
+        {
+            return View("Error");
+        }
     }
 
     [HttpGet]
-    public async Task<IActionResult> EditUserAsync(int id)
+    public async Task<IActionResult> EditUser(int id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
 
@@ -87,18 +112,42 @@ public class AdminController(Ace52024Context _db) : Controller
     }
 
     [HttpPost]
-    public IActionResult EditUser(PassengersJay user)
+    public async Task<IActionResult> EditUser(int id, PassengersJay user)
     {
-        db.PassengersJays.Update(user);
-        db.SaveChanges();
-        return RedirectToAction("ShowUsers");
+        using(HttpClient client = new())
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage res = await client.PutAsync($"http://localhost:5039/api/admin/Passenger/{id}", content);
+
+            if(res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ShowUsers");
+            }
+        }
+        return View();
     }
 
     [HttpGet]
-    public IActionResult DetailsUser(int id)
+    public async Task<IActionResult> DetailsUser(int id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        PassengersJay? user = db.PassengersJays.Find(id);
+        PassengersJay? user = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Passenger/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            user = JsonConvert.DeserializeObject<PassengersJay>(usersRes);
+        }
+
         return View(user);
     }
 
@@ -107,69 +156,197 @@ public class AdminController(Ace52024Context _db) : Controller
     ////////// FLIGHTS //////////
 
     [HttpGet]
-    public IActionResult ShowFlights()
+    public async Task<IActionResult> ShowFlights()
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.FlightsJays);
+
+        List<FlightsJay>? flights = [];
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Flight");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            flights = JsonConvert.DeserializeObject<List<FlightsJay>>(usersRes);
+        }
+
+        return View(flights);
     }
 
     [HttpGet]
-    public IActionResult AddFlight()
+    public async Task<IActionResult> AddFlight()
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
 
-        ViewBag.airports = new SelectList(db.AirportsJays.Select(x => x.AirportCode));
-        ViewBag.airlines = new SelectList(db.AirlinesJays.Select(x => x.AirlineCode));
+        List<AirportsJay>? airports = [];
+        List<AirlinesJay>? airlines = [];
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Airport");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airports = JsonConvert.DeserializeObject<List<AirportsJay>>(usersRes);
+        }
+        
+        res = await client.GetAsync("http://localhost:5039/api/admin/Airline");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airlines = JsonConvert.DeserializeObject<List<AirlinesJay>>(usersRes);
+        }
+
+        ViewBag.airports = new SelectList(airports?.Select(x => x.AirportCode));
+        ViewBag.airlines = new SelectList(airlines?.Select(x => x.AirlineCode));
 
         return View();
     }
 
     [HttpPost]
-    public IActionResult AddFlight(FlightsJay flight)
+    public async Task<IActionResult> AddFlight(FlightsJay flight)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        db.FlightsJays.Add(flight);
-        db.SaveChanges();
-        return RedirectToAction("ShowFlights");
+        
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var flightJson = JsonConvert.SerializeObject(flight);
+        HttpContent content = new StringContent(flightJson, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage res = await client.PostAsync("http://localhost:5039/api/admin/Flight", content);
+
+        if(res.IsSuccessStatusCode)
+        {
+            return RedirectToAction("ShowFlights");
+        }
+        else 
+        {
+            return View("Error");
+        }
+        
     }
 
     [HttpGet]
-    public IActionResult EditFlight(string id)
+    public async Task<IActionResult> EditFlight(string id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.FlightsJays.Find(id));
+
+        FlightsJay? flight = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Flight/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            flight = JsonConvert.DeserializeObject<FlightsJay>(usersRes);
+        }
+
+        return View(flight);
     }
 
     [HttpPost]
-    public IActionResult EditFlight(FlightsJay flight)
+    public async Task<IActionResult> EditFlight(string id, FlightsJay flight)
     {
-        db.FlightsJays.Update(flight);
-        db.SaveChanges();
-        return RedirectToAction("ShowFlights");
+        using(HttpClient client = new())
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(flight), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage res = await client.PutAsync($"http://localhost:5039/api/admin/Flight/{id}", content);
+
+            if(res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ShowFlights");
+            }
+        }
+        return View();
     }
 
     [HttpGet]
-    public IActionResult DeleteFlight(string id)
+    public async Task<IActionResult> DeleteFlight(string id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.FlightsJays.Find(id));
+        
+        FlightsJay? flight = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Flight/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            flight = JsonConvert.DeserializeObject<FlightsJay>(usersRes);
+        }
+
+        return View(flight);
     }
 
     [HttpPost]
     [ActionName("DeleteFlight")]
-    public IActionResult DeleteFlightPost(string id)
+    public async Task<IActionResult> DeleteFlightPost(string id)
     {
-        FlightsJay? flight = db.FlightsJays.Find(id);
-        if (flight != null) db.FlightsJays.Remove(flight);
-        db.SaveChanges();
-        return RedirectToAction("ShowFlights");
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.DeleteAsync($"http://localhost:5039/api/admin/Flight/{id}");
+
+        if(res.IsSuccessStatusCode)
+        {
+            return RedirectToAction("ShowFlights");
+        }
+        else
+        {
+            return View("Error");
+        }
     }
 
     [HttpGet]
-    public IActionResult DetailsFlight(string id)
+    public async Task<IActionResult> DetailsFlight(string id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        FlightsJay? flight = db.FlightsJays.Include(f => f.AirlineCodeNavigation).Include(f => f.DepartureAirportCodeNavigation).Include(f => f.ArrivalCodeNavigation).FirstOrDefault(f => f.FlightNumber == id);
+        
+        FlightsJay? flight = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Flight/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            flight = JsonConvert.DeserializeObject<FlightsJay>(usersRes);
+        }
+
         return View(flight);
     }
 
@@ -178,10 +355,27 @@ public class AdminController(Ace52024Context _db) : Controller
     ////////// AIRLINES //////////
 
     [HttpGet]
-    public IActionResult ShowAirlines()
+    public async Task<IActionResult> ShowAirlines()
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.AirlinesJays);
+
+        List<AirlinesJay>? airlines = [];
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Airline");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airlines = JsonConvert.DeserializeObject<List<AirlinesJay>>(usersRes);
+        }
+
+        return View(airlines);
     }
 
     [HttpGet]
@@ -192,43 +386,112 @@ public class AdminController(Ace52024Context _db) : Controller
     }
 
     [HttpPost]
-    public IActionResult AddAirline(AirlinesJay airline)
+    public async Task<IActionResult> AddAirline(AirlinesJay airline)
     {
-        db.AirlinesJays.Add(airline);
-        db.SaveChanges();
-        return RedirectToAction("ShowAirlines");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var airlineJson = JsonConvert.SerializeObject(airline);
+        HttpContent content = new StringContent(airlineJson, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage res = await client.PostAsync("http://localhost:5039/api/admin/Airline", content);
+
+        if(res.IsSuccessStatusCode)
+        {
+            return RedirectToAction("ShowAirlines");
+        }
+        else 
+        {
+            return View("Error");
+        }
     }
 
     [HttpGet]
-    public IActionResult EditAirline(string id)
+    public async Task<IActionResult> EditAirline(string id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.AirlinesJays.Find(id));
+
+        AirlinesJay? airline = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Airline/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airline = JsonConvert.DeserializeObject<AirlinesJay>(usersRes);
+        }
+
+        return View(airline);
     }
 
     [HttpPost]
-    public IActionResult EditAirline(AirlinesJay airline)
+    public async Task<IActionResult> EditAirline(string id, AirlinesJay airline)
     {
-        db.AirlinesJays.Update(airline);
-        db.SaveChanges();
-        return RedirectToAction("ShowAirlines");
+        using(HttpClient client = new())
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(airline), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage res = await client.PutAsync($"http://localhost:5039/api/admin/Airline/{id}", content);
+
+            if(res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ShowAirlines");
+            }
+        }
+        return View();
     }
 
     [HttpGet]
-    public IActionResult DeleteAirline(string id)
+    public async Task<IActionResult> DeleteAirline(string id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.AirlinesJays.Find(id));
+        
+        AirlinesJay? airline = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Airline/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airline = JsonConvert.DeserializeObject<AirlinesJay>(usersRes);
+        }
+
+        return View(airline);
     }
 
     [HttpPost]
     [ActionName("DeleteAirline")]
-    public IActionResult DeleteAirlinePost(string id)
+    public async Task<IActionResult> DeleteAirlinePost(string id)
     {
-        AirlinesJay? airline = db.AirlinesJays.Find(id);
-        if (airline != null) db.AirlinesJays.Remove(airline);
-        db.SaveChanges();
-        return RedirectToAction("ShowAirlines");
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.DeleteAsync($"http://localhost:5039/api/admin/Airline/{id}");
+
+        if(res.IsSuccessStatusCode)
+        {
+            return RedirectToAction("ShowAirlines");
+        }
+        else
+        {
+            return View("Error");
+        }
     }
 
     ////////// AIRLINES //////////
@@ -236,10 +499,27 @@ public class AdminController(Ace52024Context _db) : Controller
     ////////// AIRPORTS //////////
 
     [HttpGet]
-    public IActionResult ShowAirports()
+    public async Task<IActionResult> ShowAirports()
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.AirportsJays);
+
+        List<AirportsJay>? airports = [];
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Airport");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airports = JsonConvert.DeserializeObject<List<AirportsJay>>(usersRes);
+        }
+
+        return View(airports);
     }
 
     [HttpGet]
@@ -250,43 +530,112 @@ public class AdminController(Ace52024Context _db) : Controller
     }
 
     [HttpPost]
-    public IActionResult AddAirport(AirportsJay airport)
+    public async Task<IActionResult> AddAirport(AirportsJay airport)
     {
-        db.AirportsJays.Add(airport);
-        db.SaveChanges();
-        return RedirectToAction("ShowAirports");
+        if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
+        
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var airportJson = JsonConvert.SerializeObject(airport);
+        HttpContent content = new StringContent(airportJson, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage res = await client.PostAsync("http://localhost:5039/api/admin/Airport", content);
+
+        if(res.IsSuccessStatusCode)
+        {
+            return RedirectToAction("ShowAirports");
+        }
+        else 
+        {
+            return View("Error");
+        }
     }
 
     [HttpGet]
-    public IActionResult EditAirport(string id)
+    public async Task<IActionResult> EditAirport(string id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.AirportsJays.Find(id));
+        
+        AirportsJay? airport = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Airport/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airport = JsonConvert.DeserializeObject<AirportsJay>(usersRes);
+        }
+
+        return View(airport);
     }
 
     [HttpPost]
-    public IActionResult EditAirport(AirportsJay airport)
+    public async Task<IActionResult> EditAirport(string id, AirportsJay airport)
     {
-        db.AirportsJays.Update(airport);
-        db.SaveChanges();
-        return RedirectToAction("ShowAirports");
+        using(HttpClient client = new())
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(airport), Encoding.UTF8, "application/json");
+
+            HttpResponseMessage res = await client.PutAsync($"http://localhost:5039/api/admin/Airport/{id}", content);
+
+            if(res.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ShowAirports");
+            }
+        }
+        return View();
     }
 
     [HttpGet]
-    public IActionResult DeleteAirport(string id)
+    public async Task<IActionResult> DeleteAirport(string id)
     {
         if (HttpContext.Session.GetString("uname") != "admin") return RedirectToAction("Login", "Login");
-        return View(db.AirportsJays.Find(id));
+        
+        AirportsJay? airport = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync("http://localhost:5039/api/admin/Airport/" + id);
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            airport = JsonConvert.DeserializeObject<AirportsJay>(usersRes);
+        }
+
+        return View(airport);
     }
 
     [HttpPost]
     [ActionName("DeleteAirport")]
-    public IActionResult DeleteAirportPost(string id)
+    public async Task<IActionResult> DeleteAirportPost(string id)
     {
-        AirportsJay? airport = db.AirportsJays.Find(id);
-        if (airport != null) db.AirportsJays.Remove(airport);
-        db.SaveChanges();
-        return RedirectToAction("ShowAirports");
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.DeleteAsync($"http://localhost:5039/api/admin/Airport/{id}");
+
+        if(res.IsSuccessStatusCode)
+        {
+            return RedirectToAction("ShowAirports");
+        }
+        else
+        {
+            return View("Error");
+        }
     }
 
 
@@ -295,16 +644,46 @@ public class AdminController(Ace52024Context _db) : Controller
     ////////// BOOKINGS //////////
 
     [HttpGet]
-    public IActionResult Bookings(int id)
+    public async Task<IActionResult> Bookings(int id)
     {
-        return View(db.BookingsJays.Where(b => b.PassengerId == id));
+        List<BookingsJay>? bookings = [];
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync($"http://localhost:5039/api/admin/Passenger/view-bookings/{id}");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            bookings = JsonConvert.DeserializeObject<List<BookingsJay>>(usersRes);
+        }
+        return View(bookings);
     }
 
     [HttpGet]
-    public IActionResult DetailsBooking(int id)
+    public async Task<IActionResult> DetailsBooking(int id)
     {
-        BookingsJay? bookings = db.BookingsJays.Include(x => x.FlightNumberNavigation).ThenInclude(f => f.AirlineCodeNavigation).Include(x => x.FlightNumberNavigation).ThenInclude(f => f.ArrivalCodeNavigation).Include(x => x.FlightNumberNavigation).ThenInclude(f => f.DepartureAirportCodeNavigation).FirstOrDefault(y => y.BookingId == id);
-        return View(bookings);
+        BookingsJay? booking = new();
+
+        HttpClient client = new();
+        client.DefaultRequestHeaders.Clear();
+
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage res = await client.GetAsync($"http://localhost:5039/api/admin/Passenger/details-booking/{id}");
+
+        if (res.IsSuccessStatusCode)
+        {
+            var usersRes = res.Content.ReadAsStringAsync().Result;
+
+            booking = JsonConvert.DeserializeObject<BookingsJay>(usersRes);
+        }
+
+        return View(booking);
     }
 
     ////////// BOOKINGS //////////

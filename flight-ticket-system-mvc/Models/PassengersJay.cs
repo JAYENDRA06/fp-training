@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace flight_ticket_system.Models;
 
@@ -22,6 +23,7 @@ public partial class PassengersJay
     [DataType(DataType.Password)]
     [NotMapped]
     [Compare("Password", ErrorMessage = "Passwords do not match")]
+    [JsonIgnore]
     public string ConfirmPassword { get; set; } = null!;
 
     [Required(ErrorMessage = "Name is required")]
