@@ -34,18 +34,23 @@ namespace first_mvc_application.Controllers
 
             HttpContent content = new StringContent(JsonConvert.SerializeObject(_user), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage res = await client.PutAsync("http://localhost:5049/api/Login/login", content);
-
-            if (!res.IsSuccessStatusCode)
+            try
             {
-                var usersRes = res.Content.ReadAsStringAsync().Result;
-                PassengersJay? userRet = JsonConvert.DeserializeObject<PassengersJay>(usersRes);
+                HttpResponseMessage res = await client.PostAsync("http://localhost:5049/api/Login/login", content);
 
-                System.Console.WriteLine("user", userRet.Email);
+                if (res.IsSuccessStatusCode)
+                {
+                    var usersRes = res.Content.ReadAsStringAsync().Result;
+                    PassengersJay? userRet = JsonConvert.DeserializeObject<PassengersJay>(usersRes);
 
-                HttpContext.Session.SetString("uname", userRet.Name);
-                HttpContext.Session.SetInt32("uid", userRet.PassengerId);
-                return RedirectToAction("LoginSuccess", "Login");       
+                    HttpContext.Session.SetString("uname", userRet.Name);
+                    HttpContext.Session.SetInt32("uid", userRet.PassengerId);
+                    return RedirectToAction("LoginSuccess", "Login");
+                }
+            }
+            catch (Exception e)
+            {
+                View(e.Message);
             }
 
             return View();
@@ -67,11 +72,18 @@ namespace first_mvc_application.Controllers
 
             HttpContent content = new StringContent(JsonConvert.SerializeObject(_user), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage res = await client.PutAsync("http://localhost:5049/api/Login/register", content);
-
-            if (!res.IsSuccessStatusCode)
+            try
             {
-                return RedirectToAction("Login");       
+                HttpResponseMessage res = await client.PostAsync("http://localhost:5049/api/Login/register", content);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+            catch (Exception e)
+            {
+                View(e.Message);
             }
 
             return View();
